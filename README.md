@@ -1,7 +1,8 @@
-# SDe Energy Meter — Advanced
+# SDe Energy Meter Advanced — Fixed v2
 
-Advanced white/teal energy dashboard with SDe logo and realtime dummy data.
+Offline-safe frontend demo. Tidak membutuhkan Chart.js/CDN.
 
-Features: KPI monitoring, realtime power chart, estimated cost, monthly projection, energy limit donut, power quality, forecast, 7-day usage, alerts/events, device controls, CSV export, reset/clear, responsive layout.
+Dummy data berubah setiap 1 detik:
+Voltage, Current, Active Power, Energy dan Estimated Cost.
 
-Open `index.html` in a browser. Chart.js is loaded from jsDelivr CDN.
+Buka `index.html`.

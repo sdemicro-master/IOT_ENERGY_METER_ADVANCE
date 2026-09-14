@@ -1,8 +1,101 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SDe Energy Meter — Advanced</title><link rel="stylesheet" href="css/style.css"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head><body>
-<header><div class="brand"><img src="assets/sde-logo.png"><div class="sep"></div><div><h1>Energy Meter</h1><p>Smart Energy for a Better Tomorrow</p></div></div><div class="status"><i></i>Connected <span id="date"></span><b id="clock"></b></div></header>
-<main><section class="intro"><div><small>ADVANCED MONITORING</small><h2>Energy Overview</h2><p>Real-time electrical performance and consumption analytics.</p></div><div><select><option>Today</option><option>Yesterday</option><option>Last 7 Days</option><option>This Month</option></select><button id="export">↓ Export CSV</button></div></section>
-<section class="kpis"><div><span>V</span><label>Voltage<strong id="voltage">223.4 V</strong><em>● Stable</em></label></div><div><span>A</span><label>Current<strong id="current">0.85 A</strong><em>Live measurement</em></label></div><div><span>W</span><label>Active Power<strong id="power">189.9 W</strong><em>Normal load</em></label></div><div><span>kWh</span><label>Total Energy<strong id="energy">12.46 kWh</strong><em>Since reset</em></label></div></section>
-<section class="row"><article class="panel chartpanel"><div class="head"><div><h3>Power Consumption</h3><p>Real-time active power</p></div><div class="legend">● Live <select><option>1 Hour</option><option>6 Hours</option><option>24 Hours</option></select></div></div><div class="chart"><canvas id="powerChart"></canvas></div></article><article class="panel cost"><div class="head"><div><h3>Estimated Cost</h3><p>Based on current tariff</p></div><b>Rp</b></div><strong>Rp <span id="cost">18,690</span></strong><div class="line"><span>Tariff</span><b>Rp 1,500/kWh</b></div><div class="line"><span>Today</span><b id="todayCost">Rp 18,690</b></div><div class="line"><span>Projection / month</span><b id="projection">Rp 560,700</b></div><small class="note">Projection follows current usage.</small></article></section>
-<section class="three"><article class="panel"><div class="head"><div><h3>Energy Usage</h3><p>Today vs daily limit</p></div><b class="teal" id="percent">25%</b></div><div class="donut"><canvas id="energyChart"></canvas><div><strong id="donut">12.46</strong><span>kWh</span></div></div><div class="limit"><span>0 kWh</span><span>50 kWh</span></div><div class="bar"><i id="bar"></i></div></article><article class="panel"><div class="head"><div><h3>Power Quality</h3><p>Electrical parameters</p></div><b class="good">GOOD</b></div><div class="quality"><div>Power Factor<strong id="pf">0.99</strong></div><div>Frequency<strong>50.0 Hz</strong></div><div>Apparent Power<strong id="va">190.1 VA</strong></div><div>Voltage Min<strong>220.1 V</strong></div><div>Voltage Max<strong>226.8 V</strong></div><div>Peak Power<strong>268.4 W</strong></div></div></article><article class="panel"><div class="head"><div><h3>Energy Forecast</h3><p>Expected consumption</p></div></div><div class="forecast"><strong id="forecast">14.8</strong> <span>kWh/day</span></div><div class="line"><span>Daily average</span><b>14.2 kWh</b></div><div class="line"><span>Monthly estimate</span><b id="forecastMonth">426 kWh</b></div><div class="line"><span>Estimated bill</span><b id="forecastBill">Rp 639,000</b></div><em class="warning">▲ 4.2% above last week</em></article></section>
-<section class="three bottom"><article class="panel"><div class="head"><div><h3>Energy Usage — Last 7 Days</h3><p>Daily consumption</p></div></div><div class="weekly"><canvas id="weekly"></canvas></div></article><article class="panel"><div class="head"><div><h3>Alerts & Events</h3><p>Latest monitoring events</p></div><b class="count">2</b></div><div class="event">🟢 <div><b>System connected</b><small>Just now</small></div></div><div class="event">🟠 <div><b>Power peak detected</b><small>268.4 W at 14:08</small></div></div><div class="event">⚪ <div><b>Daily target updated</b><small>Today, 00:00</small></div></div></article><article class="panel"><div class="head"><div><h3>Device & Control</h3><p>Monitoring system</p></div><b class="good">ONLINE</b></div><div class="line"><span>Device</span><b>Energy Meter</b></div><div class="line"><span>IP Address</span><b>192.168.1.100</b></div><div class="line"><span>Uptime</span><b>1d 06h 24m</b></div><div class="line"><span>Last update</span><b id="last">--</b></div><button id="reset">↻ Reset Energy</button><button id="clear">Clear Data</button></article></section>
-<footer><div><img src="assets/sde-logo.png"><span>Energy Monitoring System · Build a Smarter and Greener Future</span></div><span>Advanced v1.0.0 · Powered by Innovation</span></footer></main><script src="js/dummy-data.js"></script><script src="js/charts.js"></script><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SDe Energy Meter — Advanced</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="assets/sde-logo.png" alt="SDe">
+    <div class="sep"></div>
+    <div><h1>Energy Meter</h1><p>Smart Energy for a Better Tomorrow</p></div>
+  </div>
+  <div class="status"><span class="dot"></span><b>Connected</b><span id="date"></span><strong id="clock"></strong></div>
+</header>
+
+<main>
+<section class="intro">
+  <div><small>ADVANCED MONITORING</small><h2>Energy Overview</h2><p>Real-time electrical performance and consumption analytics.</p></div>
+  <div class="actions"><select id="period"><option>Today</option><option>Yesterday</option><option>Last 7 Days</option><option>This Month</option></select><button id="export">↓ Export CSV</button></div>
+</section>
+
+<section class="kpis">
+  <div class="kpi"><span class="teal">V</span><label>Voltage<strong><b id="voltage">223.4</b> V</strong><em>● Stable</em></label></div>
+  <div class="kpi"><span class="orange">A</span><label>Current<strong><b id="current">0.85</b> A</strong><em>Live measurement</em></label></div>
+  <div class="kpi"><span class="blue">W</span><label>Active Power<strong><b id="power">189.9</b> W</strong><em id="powerStatus">Normal load</em></label></div>
+  <div class="kpi"><span class="dark">kWh</span><label>Total Energy<strong><b id="energy">12.46</b> kWh</strong><em>Since reset</em></label></div>
+</section>
+
+<section class="main-grid">
+  <article class="panel power-panel">
+    <div class="panel-head"><div><h3>Power Consumption</h3><p>Real-time active power</p></div><div class="legend"><i></i> Live <select id="range"><option>1 Hour</option><option>6 Hours</option><option>24 Hours</option></select></div></div>
+    <div class="chart"><canvas id="powerChart"></canvas></div>
+  </article>
+  <article class="panel cost">
+    <div class="panel-head"><div><h3>Estimated Cost</h3><p>Based on current tariff</p></div><span class="money">Rp</span></div>
+    <strong class="cost-value">Rp <b id="cost">18,690</b></strong>
+    <div class="line"><span>Tariff</span><b>Rp 1,500 / kWh</b></div>
+    <div class="line"><span>Today's Usage</span><b id="todayCost">Rp 18,690</b></div>
+    <div class="line"><span>Projection / month</span><b id="projection">Rp 186,480</b></div>
+    <p class="note">Projection uses the current daily consumption rate.</p>
+  </article>
+</section>
+
+<section class="three-grid">
+  <article class="panel">
+    <div class="panel-head"><div><h3>Energy Usage</h3><p>Today vs daily limit</p></div><b class="teal-text" id="percent">25%</b></div>
+    <div class="donut"><canvas id="energyChart"></canvas><div><strong id="donut">12.46</strong><span>kWh</span></div></div>
+    <div class="limit"><span>0 kWh</span><span>50 kWh</span></div><div class="progress"><i id="bar"></i></div>
+  </article>
+  <article class="panel">
+    <div class="panel-head"><div><h3>Power Quality</h3><p>Electrical parameters</p></div><b class="good">GOOD</b></div>
+    <div class="quality">
+      <div><small>Power Factor</small><strong id="pf">0.99</strong></div>
+      <div><small>Frequency</small><strong>50.0 Hz</strong></div>
+      <div><small>Apparent Power</small><strong id="va">190.1 VA</strong></div>
+      <div><small>Voltage Min</small><strong id="vmin">220.1 V</strong></div>
+      <div><small>Voltage Max</small><strong id="vmax">226.8 V</strong></div>
+      <div><small>Peak Power</small><strong id="peak">268.4 W</strong></div>
+    </div>
+  </article>
+  <article class="panel">
+    <div class="panel-head"><div><h3>Energy Forecast</h3><p>Expected consumption</p></div></div>
+    <div class="forecast"><strong id="forecast">14.8</strong><span>kWh/day</span></div>
+    <div class="line"><span>Daily average</span><b>14.2 kWh</b></div>
+    <div class="line"><span>Monthly estimate</span><b id="forecastMonth">426 kWh</b></div>
+    <div class="line"><span>Estimated bill</span><b id="forecastBill">Rp 639,000</b></div>
+    <div class="alert">▲ 4.2% above last week</div>
+  </article>
+</section>
+
+<section class="bottom-grid">
+  <article class="panel">
+    <div class="panel-head"><div><h3>Energy Usage — Last 7 Days</h3><p>Daily consumption in kWh</p></div></div>
+    <div class="chart small"><canvas id="weekly"></canvas></div>
+  </article>
+  <article class="panel">
+    <div class="panel-head"><div><h3>Alerts & Events</h3><p>Latest monitoring events</p></div><b class="count">2</b></div>
+    <div class="event"><i class="green"></i><div><b>System connected</b><small>Just now</small></div></div>
+    <div class="event"><i class="orange-dot"></i><div><b>Power peak detected</b><small>268.4 W at 14:08</small></div></div>
+    <div class="event"><i class="gray"></i><div><b>Daily target updated</b><small>Today, 00:00</small></div></div>
+  </article>
+  <article class="panel">
+    <div class="panel-head"><div><h3>Device & Control</h3><p>Monitoring system</p></div><b class="online">ONLINE</b></div>
+    <div class="line"><span>Device</span><b>Energy Meter</b></div>
+    <div class="line"><span>IP Address</span><b>192.168.1.100</b></div>
+    <div class="line"><span>Uptime</span><b>1d 06h 24m</b></div>
+    <div class="line"><span>Last update</span><b id="last">--</b></div>
+    <div class="buttons"><button id="reset">↻ Reset Energy</button><button id="clear">Clear Data</button></div>
+  </article>
+</section>
+
+<footer><div><img src="assets/sde-logo.png" alt="SDe"> <span>Energy Monitoring System · Build a Smarter and Greener Future</span></div><span>Advanced v1.0.1</span></footer>
+</main>
+<script src="js/dummy-data.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
