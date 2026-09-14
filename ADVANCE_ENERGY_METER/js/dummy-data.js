@@ -1,1 +1,0 @@
-const TARIFF=1500,LIMIT=50;const meter={voltage:223.4,current:.85,power:189.9,energy:12.46,month:124.32};function generate(){meter.voltage=220+Math.random()*6;meter.current=Math.max(.05,.82+(Math.random()*.34-.17));meter.power=meter.voltage*meter.current*(.96+Math.random()*.03);meter.energy+=meter.power/3600000;return {...meter}}
